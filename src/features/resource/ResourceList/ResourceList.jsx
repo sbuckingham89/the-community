@@ -3,12 +3,17 @@ import ResourceListItem from './ResourceListItem';
 
 class ResourceList extends Component {
   render() {
-    const { resources } = this.props;
+    const { resources, onResourceEdit, deleteResource } = this.props;
     return (
       <div>
         <h1>Resource List</h1>
         {resources.map(resource => (
-          <ResourceListItem key={resource.id} resource={resource} />
+          <ResourceListItem
+            deleteResource={deleteResource}
+            key={resource.id}
+            resource={resource}
+            onResourceEdit={onResourceEdit}
+          />
         ))}
       </div>
     );

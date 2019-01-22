@@ -8,7 +8,7 @@ const resources = [
   {
     id: '1',
     name: 'Crisis Text Line',
-    date: '2018-03-27T11:00:00+00:00',
+    date: '2018-03-27',
     category: 'Crisis Intervention',
     description:
       'Crisis Text Line is free, 24/7 support for those in crisis. Text 741741 from anywhere in the US to text with a trained Crisis Counselor. Crisis Text Line trains volunteers to support people in crisis.',
@@ -33,7 +33,7 @@ const resources = [
   {
     id: '2',
     name: 'Shared Housing Services',
-    date: '2018-03-28T14:00:00+00:00',
+    date: '2018-03-28',
     category: 'Housing',
     description:
       'Shared Housing Services offers low-income individuals and families innovative and affordable solutions to prevent homelessness and foster independence through home sharing and transitional housing programs that include case management services and connections to vital community resources. ',
@@ -64,11 +64,42 @@ class ResourceDashboard extends Component {
     this.state = {
       resources,
       isOpen: false,
+      selectedResource: null,
     };
   }
 
+  handleEditResource = resourceToUpdate => () => {
+    this.setState({
+      selectedResource: resourceToUpdate,
+      isOpen: true,
+    });
+  };
+
+  handleUpdateResource = updatedResource => {
+    this.setState({
+      resources: this.state.resources.map(resource => {
+        if (resource.id === updatedResource.id) {
+          return Object.assign({}, updatedResource);
+        } else {
+          return resource;
+        }
+      }),
+      isOpen: false,
+      selectedResource: null,
+    });
+  };
+
+  handleDeleteResource = resourceId => () => {
+    const updatedResources = this.state.resources.filter(
+      r => r.id !== resourceId
+    );
+    this.setState({
+      resources: updatedResources,
+    });
+  };
   handleFormOpen = () => {
     this.setState({
+      selectedResource: null,
       isOpen: true,
     });
   };
@@ -90,10 +121,15 @@ class ResourceDashboard extends Component {
   };
 
   render() {
+    const { selectedResource } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <ResourceList resources={this.state.resources} />
+          <ResourceList
+            deleteResource={this.handleDeleteResource}
+            onResourceEdit={this.handleEditResource}
+            resources={this.state.resources}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
           <Button
@@ -103,6 +139,8 @@ class ResourceDashboard extends Component {
           />
           {this.state.isOpen && (
             <ResourceForm
+              updateResource={this.handleUpdateResource}
+              selectedResource={selectedResource}
               createResource={this.handleCreateResource}
               handleCancel={this.handleCancel}
             />

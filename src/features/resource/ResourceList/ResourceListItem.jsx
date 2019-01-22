@@ -4,7 +4,7 @@ import ResourceListEndorsement from './ResourceListEndorsement';
 
 class ResourceListItem extends Component {
   render() {
-    const { resource } = this.props;
+    const { resource, onResourceEdit, deleteResource } = this.props;
     return (
       <Segment.Group>
         <Segment>
@@ -35,14 +35,31 @@ class ResourceListItem extends Component {
         </Segment>
         <Segment secondary>
           <List horizontal>
-            {resource.endorsers && resource.endorsers.map(endorser => (
-              <ResourceListEndorsement key={endorser.id} endorser={endorser} />
-            ))}
+            {resource.endorsers &&
+              resource.endorsers.map(endorser => (
+                <ResourceListEndorsement
+                  key={endorser.id}
+                  endorser={endorser}
+                />
+              ))}
           </List>
         </Segment>
         <Segment clearing>
           <span>{resource.description}</span>
-          <Button as="a" color="orange" floated="right" content="View" />
+          <Button
+            onClick={deleteResource(resource.id)}
+            as="a"
+            color="orange"
+            floated="right"
+            content="Delete"
+          />
+          <Button
+            onClick={onResourceEdit(resource)}
+            as="a"
+            color="orange"
+            floated="right"
+            content="View"
+          />
         </Segment>
       </Segment.Group>
     );

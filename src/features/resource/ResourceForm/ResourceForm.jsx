@@ -1,22 +1,45 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 
+const emptyResource = {
+  name: '',
+  date: '',
+  category: '',
+  city: '',
+  location: '',
+  description: '',
+  contactInformation: '',
+  hostedBy: '',
+};
+
 class ResourceForm extends Component {
   state = {
-    resource: {
-      name: '',
-      date: '',
-      category: '',
-      city: '',
-      location: '',
-      description: '',
-      contactInformation: '',
-      hostedBy: '',
-    },
+    resource: emptyResource,
   };
+
+  componentDidMount() {
+    if (this.props.selectedResource !== null) {
+      this.setState({
+        resource: this.props.selectedResource,
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedResource !== this.props.selectedResource) {
+      this.setState({
+        resource: nextProps.selectedResource || emptyResource,
+      });
+    }
+  }
+
   onFormSubmit = evt => {
     evt.preventDefault();
-    this.props.createResource(this.state.resource);
+    if (this.state.resource.id) {
+      this.props.updateResource(this.state.resource);
+    } else {
+      this.props.createResource(this.state.resource);
+    }
   };
 
   onInputChange = evt => {
