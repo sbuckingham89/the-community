@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import ResourceListEndorsement from './ResourceListEndorsement';
 
 class ResourceListItem extends Component {
@@ -21,7 +22,7 @@ class ResourceListItem extends Component {
                   <Item.Header as="a">{resource.category}</Item.Header>
                 </p>
                 <Item.Description>
-                  Hosted by <a>{resource.hostedBy}</a>
+                  Added by <a>{resource.hostedBy}</a>
                 </Item.Description>
               </Item.Content>
             </Item>
@@ -54,8 +55,8 @@ class ResourceListItem extends Component {
             content="Delete"
           />
           <Button
-            onClick={onResourceEdit(resource)}
-            as="a"
+            as={Link}
+            to={`/resource/${resource.id}`}
             color="orange"
             floated="right"
             content="View"

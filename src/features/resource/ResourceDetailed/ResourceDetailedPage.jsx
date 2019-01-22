@@ -1,11 +1,40 @@
 import React from 'react';
+import ResourceDetailedHeader from './ResourceDetailedHeader';
+import ResourceDetailedChat from './ResourceDetailedChat';
+import ResourceDetailedInfo from './ResourceDetailedInfo';
+import ResourceDetailedSidebar from './ResourceDetailedSidebar';
+import { Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-const ResourceDetailedPage = () => {
+const mapState = (state, ownProps) => {
+  const resourceID = ownProps.match.params.id;
+
+  let resource = {};
+
+  if (resourceID && state.resources.length > 0) {
+    resource = state.resources.filter(
+      resource => resource.id === resourceID
+    )[0];
+  }
+
+  return {
+    resource,
+  };
+};
+
+const ResourceDetailedPage = ({ resource }) => {
   return (
-    <div>
-      <h1>Resource Detailed Page </h1>
-    </div>
+    <Grid>
+      <Grid.Column width={10}>
+        <ResourceDetailedHeader resource={resource} />
+        <ResourceDetailedInfo resource={resource} />
+        <ResourceDetailedChat />
+      </Grid.Column>
+      <Grid.Column width={6}>
+        <ResourceDetailedSidebar endorsers={resource.endorsers} />
+      </Grid.Column>
+    </Grid>
   );
 };
 
-export default ResourceDetailedPage;
+export default connect(mapState)(ResourceDetailedPage);

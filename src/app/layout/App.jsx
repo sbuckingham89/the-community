@@ -9,6 +9,7 @@ import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard';
 import ResourceForm from '../../features/resource/ResourceForm/ResourceForm';
 import HomePage from '../../features/home/HomePage';
+import TestComponent from '../../features/testarea/TestComponent';
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
               <Container className="main">
                 <Switch>
                   <Route path="/resources" component={ResourceDashboard} />
+                  <Route path="/test" component={TestComponent} />
                   <Route
                     path="/resource/:id"
                     component={ResourceDetailedPage}
