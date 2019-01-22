@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Button} from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 import ResourceList from '../ResourceList/ResourceList';
 import ResourceForm from '../ResourceForm/ResourceForm';
+import cuid from 'cuid';
 
 const resources = [
   {
@@ -78,6 +79,16 @@ class ResourceDashboard extends Component {
     });
   };
 
+  handleCreateResource = newResource => {
+    newResource.id = cuid();
+    newResource.resourcePhotoURL = '/assets/user.png';
+    const updatedResources = [...this.state.resources, newResource];
+    this.setState({
+      resources: updatedResources,
+      isOpen: false,
+    });
+  };
+
   render() {
     return (
       <Grid>
@@ -91,7 +102,10 @@ class ResourceDashboard extends Component {
             color="orange"
           />
           {this.state.isOpen && (
-            <ResourceForm handleCancel={this.handleCancel} />
+            <ResourceForm
+              createResource={this.handleCreateResource}
+              handleCancel={this.handleCancel}
+            />
           )}
         </Grid.Column>
       </Grid>

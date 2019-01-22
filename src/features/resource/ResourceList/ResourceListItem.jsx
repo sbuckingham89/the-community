@@ -35,7 +35,7 @@ class ResourceListItem extends Component {
         </Segment>
         <Segment secondary>
           <List horizontal>
-            {resource.endorsers.map(endorser => (
+            {resource.endorsers && resource.endorsers.map(endorser => (
               <ResourceListEndorsement key={endorser.id} endorser={endorser} />
             ))}
           </List>
