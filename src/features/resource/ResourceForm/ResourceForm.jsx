@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 
-
-
 class ResourceForm extends Component {
   render() {
+    const { handleCancel } = this.props;
     return (
       <Segment>
         <Form>
@@ -31,7 +30,7 @@ class ResourceForm extends Component {
           <Button color="orange" type="submit">
             Submit
           </Button>
-          <Button color="orange" type="button">
+          <Button onClick={handleCancel} color="orange" type="button">
             Cancel
           </Button>
         </Form>

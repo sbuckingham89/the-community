@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid, Button} from 'semantic-ui-react';
 import ResourceList from '../ResourceList/ResourceList';
 import ResourceForm from '../ResourceForm/ResourceForm';
 
@@ -57,15 +57,42 @@ const resources = [
 ];
 
 class ResourceDashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      resources,
+      isOpen: false,
+    };
+  }
+
+  handleFormOpen = () => {
+    this.setState({
+      isOpen: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      isOpen: false,
+    });
+  };
+
   render() {
     return (
       <Grid>
         <Grid.Column width={10}>
-          <ResourceList resources={resources} />
+          <ResourceList resources={this.state.resources} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button content="Create Resource" color="orange" />
-          <ResourceForm />
+          <Button
+            onClick={this.handleFormOpen}
+            content="Create Resource"
+            color="orange"
+          />
+          {this.state.isOpen && (
+            <ResourceForm handleCancel={this.handleCancel} />
+          )}
         </Grid.Column>
       </Grid>
     );
